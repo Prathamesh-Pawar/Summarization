@@ -30,13 +30,19 @@ If you would like to contribute to Summarization, you can follow these steps:
 
 
 Fork the repository.
-Create a new branch for your contribution: git checkout -b feature/your-feature-branch
-Make your changes and commit them: git commit -m "Add your commit message here"
-Push your changes to your forked repository: git push origin feature/your-feature-branch
+Create a new branch for your contribution: 
+`git checkout -b feature/your-feature-branch`
+
+Make your changes and commit them: 
+`git commit -m "Add your commit message here"`
+
+Push your changes to your forked repository: 
+`git push origin feature/your-feature-branch`
+
 Create a pull request to the main repository, explaining your changes and their significance.
 
 Contact
-For any questions, suggestions, or concerns, please feel free to contact the project maintainer at pawar.prath@northeastern.edu
+For any questions, suggestions, or concerns, please feel free to contact the project maintainer at pawar.prath@northeastern.edu and sharan.a@northeastern.edu
 
 We appreciate your interest and contributions to Summarization! Thank you for your support.
 
