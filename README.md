@@ -1,31 +1,29 @@
 # Summarization
 
-Project Title
 This project showcases an attempt to summarize and simplify scientific documents by fine tuning language models on custom preprocessed data
 
-Installation
+### Installation
 
-
-Clone the repository: 
+#### Clone the repository: 
 
 `git clone https://github.com/Prathamesh-Pawar/Summarization.git`
 
-Change to the project directory: 
+#### Change to the project directory: 
 
 `cd Summarization`
 
-Install dependencies: 
+#### Install dependencies: 
 
 `pip install -r requirements.txt`
 
 
-To use Summarization, follow these steps:
+#### To use Summarization, follow these steps:
 
 `python test.py -t "This is the input text for summarization." -m "facebook/bart-large-cnn"`
 
 
 
-Contributing
+### Contributing
 If you would like to contribute to Summarization, you can follow these steps:
 
 
@@ -41,13 +39,13 @@ Push your changes to your forked repository:
 
 Create a pull request to the main repository, explaining your changes and their significance.
 
-Contact
+### Contact
 For any questions, suggestions, or concerns, please feel free to contact the project maintainer at pawar.prath@northeastern.edu and sharan.a@northeastern.edu
 
 We appreciate your interest and contributions to Summarization! Thank you for your support.
 
 
-Links to models and datasets
+### Links to models and datasets
 
 ## Models
 
