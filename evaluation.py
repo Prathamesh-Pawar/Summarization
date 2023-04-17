@@ -7,6 +7,10 @@ rouge = Rouge()
 
 from transformers import pipeline
 from datasets import load_dataset
+
+from huggingface_hub import notebook_login
+notebook_login()
+
 data_files = {"test": "1000_test.json"}
 
 

@@ -3,6 +3,9 @@ import re
 from rouge import Rouge
 from transformers import pipeline
 
+from huggingface_hub import notebook_login
+notebook_login()
+
 def split_into_chunks(text, max_length):
     """
     Splits a string into chunks of text with complete sentences, where each chunk
