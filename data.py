@@ -1,52 +1,43 @@
-
-# For data collection we make a list of topics with complex scientific background and make use of the wikipedia package to download and store
-# the tiles, content and summary in a json file. Here is a code snipit showing how.
-
-
-import string
-import re
-
+"""
+This file generate a small sample of the data we use to train, test and validate our models it create a json with topics summary and the 4 differnt pre-processing techniques we use on the articles.
+"""
+# Get the Wikipedia page for each keyword
 import wikipedia
 import json
 from wikipedia.exceptions import WikipediaException
-# Set the language to English
-wikipedia.set_lang("en")
 
+import spacy
 
-import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
+# Download and install the language model
+nlp = spacy.load('en_core_web_sm')
+
+import string
+import re
 import nltk
-nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
-nltk.download('stopwords')
-
-import spacy
-nlp = spacy.load('en_core_web_sm')
-
-import nltk
-from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize
-import re
+nltk.download('stopwords')
+# Set the language to English
+wikipedia.set_lang("en")
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+import json
 
-
-
-
-
-keywords = ['Hilbert\'s fifth problem', 'P vs NP', 'Navier–Stokes existence and smoothness', 'Birch and Swinnerton-Dyer conjecture', 'Twin prime conjecture']
-titles = []
-i = 0
-for keyword in keywords:
-    if i > 1000:
-        break
-    try:
-        pages = wikipedia.search(keyword, results=600)
-        for page in pages:
-            if page not in titles:
+def getdata():
+    keywords = ['P vs NP', 'Navier–Stokes existence and smoothness', 'Birch and Swinnerton-Dyer conjecture', 'Twin prime conjecture', 'Riemann hypothesis', 'Yang-Mills existence and mass gap', 'Poincaré conjecture']
+    data = []
+    for keyword in keywords:
+        if len(data) >= 10:
+            break
+        try:
+            pages = wikipedia.search(keyword, results=600)
+            for page in pages:
                 try:
-                    with open('10krun.json', 'r') as f:
-                        data = json.load(f)
+                    if len(data) != 0:
+                        with open('10run.json', 'r') as f:
+                            data = json.load(f)
 
                     summary = wikipedia.summary(page)
                     content = wikipedia.page(page).content
@@ -56,37 +47,19 @@ for keyword in keywords:
                         "summary": summary,
                         "content": content
                     })
-                    with open('10krun.json', 'w') as f:
+                    with open('10run.json', 'w') as f:
                         json.dump(data, f)
-                        if len(data) > 1000:
-                            i = 1000
-                            break
+                    if len(data) >= 10:
+                        break
                 except wikipedia.exceptions.DisambiguationError as e:
                     # If the page is a disambiguation page, skip it
                     continue 
-    except wikipedia.exceptions.PageError as e:
-        # If no pages are found for the keyword, skip it
-        continue
-    except KeyError:
+        except wikipedia.exceptions.PageError as e:
+            # If no pages are found for the keyword, skip it
+            continue
+        except KeyError:
 
-        continue
-
-# Pre-processing:
-# We utilize four distinct preprocessing approaches, including the Traditional, Custom, Raw, and Combined approaches. Each approach has its unique
-# strengths and benefits, allowing us to tailor our data processing for better evaluation and achieve higher accuracy rates in our models.
-
-
-# Traditional Approach
-# We utilize a range of traditional preprocessing techniques, including stopword removal, punctuation filtering, and tokenization.
-# To perform these tasks, we rely on the Spacy library, which is renowned for its effectiveness in handling scientific text and
-# related terminology.
-
-# Moreover, we employ the Term Frequency-Inverse Document Frequency (TFIDF) method to reduce the size of the document to 1500 tokens,
-# which is essential for the model's optimal performance. Following this, we perform sentence segmentation and rank each sentence's
-# importance using the TFIDF score. Finally, we only retain the highest ranking sentences that fit under the 1500 token limit,
-# ensuring that only the most relevant and informative content is included in the analysis.
-
-
+            continue
 
 def Traditional_approach(text):
     '''
@@ -112,36 +85,6 @@ def Traditional_approach(text):
     filtered_text = [word for word in filtered_text if ' ' not in word]
     return ' '.join(filtered_text)
 
-
-def tfidf_content(content):
-    # Load the input document and split it into sentences
-    if len(nltk.word_tokenize(content)) < 1500:
-        return content
-    else:
-        token = len(nltk.word_tokenize(content))
-        sentences = sentence_segmentation(content)
-        tfidf = TfidfVectorizer().fit_transform(sentences).toarray()
-        x = 1
-        para = ""
-        while token > 1500 :
-            N = len(sentences) - x 
-            top_indices = np.argsort(tfidf.sum(axis=1))[::-1][:N]
-            # Concatenate the selected sentences into a single input sequence
-            para =  ' '.join([sentences[i] for i in top_indices])
-            token = len(nltk.word_tokenize(para))
-            x+=1
-        return para
-
-def sentence_segmentation(content):
-    sentences = nltk.sent_tokenize(content)
-    return sentences
-
-
-
-# Custon Approach:
-# In this approach we get rid of non-informational sections of the content like refernces, notes or symbols in some cases. before running TFIDF on it.
-
-
 def section_creator(article):
 # Download article from wikipedia
     section_content = ''
@@ -165,6 +108,11 @@ def section_creator(article):
 
     return sections
 
+nltk.download('punkt')
+def sentence_segmentation(content):
+    sentences = nltk.sent_tokenize(content)
+    return sentences
+
 exclude = ["See also",
 "References",
 "External links",
@@ -186,7 +134,6 @@ def exclusion(content):
             new_content[title] = value
     return new_content
 
-
 def custom_approach(content):
     con_dict = section_creator(content)
     con_dict = exclusion(con_dict)
@@ -195,10 +142,50 @@ def custom_approach(content):
         total += con_dict[key]
     return total
 
-# Combined Approach
-# In this is apart of the abliation stuy where we use both traditional and custum approach of pre-processing on this content
-# for a better comparision and to see if it can give a higher accuracy.
-
 def combined_approach(content):
     return Traditional_approach(custom_approach(content))
 
+def tfidf_content(content):
+    # Load the input document and split it into sentences
+    if len(nltk.word_tokenize(content)) < 1500:
+        return content
+    else:
+        token = len(nltk.word_tokenize(content))
+        sentences = sentence_segmentation(content)
+        tfidf = TfidfVectorizer().fit_transform(sentences).toarray()
+        x = 1
+        para = ""
+        while token > 1500 :
+            N = len(sentences) - x 
+            top_indices = np.argsort(tfidf.sum(axis=1))[::-1][:N]
+            # Concatenate the selected sentences into a single input sequence
+            para =  ' '.join([sentences[i] for i in top_indices])
+            token = len(nltk.word_tokenize(para))
+            x+=1
+        return para
+
+def new_trad_approach(content):
+    seg_content = sentence_segmentation(content)
+    trad_content = []
+    for c in seg_content:
+        trad_content.append(Traditional_approach(c))
+    content = '. '.join(trad_content)
+    content = content + '.'
+    return content
+
+def new_combined_approach(content):
+    return new_trad_approach(tfidf_content(custom_approach(content)))
+
+
+if __name__ == "__main__":
+    getdata()
+    with open('10run.json','r+') as file:
+        data = json.load(file)
+        for i in range(len(data)):
+                data[i]['content'] = data[i]['content'].replace(data[i]['summary'],'') 
+                data[i]['content_traditional'] = new_trad_approach(tfidf_content(data[i]['content']))
+                data[i]['custom_approach'] = tfidf_content(custom_approach(data[i]['content']))
+                data[i]['combined_approach'] = new_combined_approach(data[i]['content'])
+        file.seek(0)
+        json.dump(data, file, indent=4)
+        file.truncate()

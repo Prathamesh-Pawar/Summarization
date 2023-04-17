@@ -22,10 +22,18 @@ This project showcases an attempt to summarize and simplify scientific documents
 
 This create a JSON that contains 10 data point that consists of 4 different types of pre-processed content.
 
+#### Get Huggingface login
+
+Generate hugginface token to use the pretrained models and datasets.
+
 #### To use Summarization, follow these steps:
 
 `python test.py -t "This is the input text for summarization." -m "facebook/bart-large-cnn"`
 
+
+#### To train Summarization 
+
+`python your_script.py --dataset 3500_train_trad.json --model google/pegasus`
 
 
 ### Contributing
