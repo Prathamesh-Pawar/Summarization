@@ -42,7 +42,7 @@ list of models:
 
 #### To train Summarization, follow these steps:
 
-This may not run, if you do not posses the sufficient cuda core and memory if you desire to run it on CPU change the fp16=False under Seq2SeqTrainingArgument.
+This may not run, if you do not posses the sufficient cuda core and memory if you desire to run it on CPU change the `fp16=False` under Seq2SeqTrainingArgument.
 
 `python train.py --dataset 3500_train_trad.json --model google/pegasus`
 
