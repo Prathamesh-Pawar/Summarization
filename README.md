@@ -22,6 +22,10 @@ This project showcases an attempt to summarize and simplify scientific documents
 `python test.py -t "This is the input text for summarization." -m "facebook/bart-large-cnn"`
 
 
+#### To train Summarization 
+
+`python your_script.py --dataset 3500_train_trad.json --model google/pegasus`
+
 
 ### Contributing
 If you would like to contribute to Summarization, you can follow these steps:
