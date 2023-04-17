@@ -16,6 +16,11 @@ This project showcases an attempt to summarize and simplify scientific documents
 
 `pip install -r requirements.txt`
 
+#### To generate a sample of preprocessed data, follow these steps:
+
+`python data.py
+
+This create a JSON that contains 10 data point that consists of 4 different types of pre-processed content.
 
 #### To use Summarization, follow these steps:
 
