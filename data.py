@@ -36,7 +36,7 @@ def getdata():
             for page in pages:
                 try:
                     if len(data) != 0:
-                        with open('10run.json', 'r') as f:
+                        with open('5run.json', 'r') as f:
                             data = json.load(f)
 
                     summary = wikipedia.summary(page)
@@ -47,7 +47,7 @@ def getdata():
                         "summary": summary,
                         "content": content
                     })
-                    with open('10run.json', 'w') as f:
+                    with open('5run.json', 'w') as f:
                         json.dump(data, f)
                     if len(data) >= 10:
                         break
@@ -179,7 +179,7 @@ def new_combined_approach(content):
 
 if __name__ == "__main__":
     getdata()
-    with open('10run.json','r+') as file:
+    with open('5run.json','r+') as file:
         data = json.load(file)
         for i in range(len(data)):
                 data[i]['content'] = data[i]['content'].replace(data[i]['summary'],'') 

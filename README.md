@@ -20,17 +20,38 @@ This project showcases an attempt to summarize and simplify scientific documents
 
 Generate hugginface token to use the pretrained models and datasets.
 
+#### To generate a small sample of pre-processed data, follow these steps:
+
+This will generate a JSON with 'topic', 'summary' and 4 preprocessed contents
+
+`python data.py`
+
 #### To use Summarization, follow these steps:
 
-`python test.py -t "This is the input text for summarization." -m "facebook/bart-large-cnn"`
+`python test.py -t "This is the input text for summarization." -m "Choose from list of models"`
 
+list of models:
+1. PrathameshPawar/pegasus_raw
+2. PrathameshPawar/pegasus_traditional
+3. PrathameshPawar/pegasus_custom
+4. PrathameshPawar/pegasus_combined
+5. PrathameshPawar/bart_raw
+6. PrathameshPawar/bart_traditional
+7. PrathameshPawar/bart_custom
+8. PrathameshPawar/bart_combined
 
-#### To train Summarization 
+#### To train Summarization, follow these steps:
 
-`python your_script.py --dataset 3500_train_trad.json --model google/pegasus`
+This may not run, if you do not posses the sufficient cuda core and memory if you desire to run it on CPU change the fp16=False under Seq2SeqTrainingArgument.
 
+`python train.py --dataset 3500_train_trad.json --model google/pegasus`
 
-### Contributing
+#### To evaluate the Summarization, follow these steps:
+
+`python evaluation.py`
+
+### Contributing follow these steps:
+
 If you would like to contribute to Summarization, you can follow these steps:
 
 
