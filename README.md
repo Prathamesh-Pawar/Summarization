@@ -16,6 +16,9 @@ This project showcases an attempt to summarize and simplify scientific documents
 
 `pip install -r requirements.txt`
 
+#### Get Huggingface login
+
+Generate hugginface token to use the pretrained models and datasets.
 
 #### To use Summarization, follow these steps:
 
