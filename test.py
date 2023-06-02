@@ -42,20 +42,20 @@ def get_chunks(input_text, model_name, max_length=1025):
         
     return '. '.join(summary_temps_)
 
+if __name__ == "__main__":
+    # Create argument parser
+    parser = argparse.ArgumentParser(description="Summarize text using BART model")
 
-# Create argument parser
-parser = argparse.ArgumentParser(description="Summarize text using BART model")
+    # Add arguments
+    parser.add_argument("-t", "--text", type=str, required=True, help="Input text for summarization")
+    parser.add_argument("-m", "--model", type=str, required=True, help="Name of the BART model to use")
 
-# Add arguments
-parser.add_argument("-t", "--text", type=str, required=True, help="Input text for summarization")
-parser.add_argument("-m", "--model", type=str, required=True, help="Name of the BART model to use")
+    # Parse command line arguments
+    args = parser.parse_args()
 
-# Parse command line arguments
-args = parser.parse_args()
+    # Retrieve values of arguments
+    text = args.text
+    model_name = args.model
 
-# Retrieve values of arguments
-text = args.text
-model_name = args.model
-
-bart_base_summary = get_chunks(text, model_name)
-print(bart_base_summary)
+    bart_base_summary = get_chunks(text, model_name)
+    print(bart_base_summary)
